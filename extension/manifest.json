@@ -4,7 +4,7 @@
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "description": "Paint the web red.",
-  "homepage_url": "graffiti.herokuapp.com",
+  "homepage_url": "http://graffiti.herokuapp.com",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -26,7 +26,6 @@
     "cookies",
     "tabs",
     "storage",
-    "fileBrowserHandler",
     "notifications",
     "tabs",
     "geolocation",
@@ -51,9 +50,9 @@
       ],
       "js": [
       	"src/inject/lib/lodash.js",
-      	"src/js/jquery.min.js",
+      	"js/jquery/jquery.min.js",
       	"src/inject/lib/react.min.js",
-      	"src/inject/hooks.js",
+      	"src/inject/lib/hooks.js",
         "src/inject/app.js"
       ]
     }

@@ -3,23 +3,21 @@ var Graffiti = function(api) {
     this.api = api;
 }
 
-InfoWar.prototype.Domain = function() {
+Graffiti.prototype.Page = function() {
     var self = this;
     return {
         GET: function(args, callback) {
             console.log(self);
             //args.domain
-            var domain = args.domain;
-            var path = args.path;
+            var domain = args.domain.replace(/\./g, '+');
+            var path = args.path.replace(/\//g, '+');
             // //Convert to a param safe format to talk to api
-            var domain_param = domain.replace(/\./g, '+');
-            var path = path.replace(/\//g, '+');
-            console.log(domain_param);
+            console.log(domain+path);
             $.ajax({
-                url: self.api + '/api/domains/'+domain_param,
+                url: self.api + '/api/pages/'+domain+path,
                 dataType: 'json',
                 success: function(data) {
-                    console.log('success');
+                    console.log(data);
                     callback(null, data)
                 },
                 error: function(xhr, status, err) {
@@ -41,7 +39,7 @@ InfoWar.prototype.Domain = function() {
     }
 }
 
-InfoWar.prototype.User = function() {
+Graffiti.prototype.User = function() {
 		var self = this;
     return {
         GET: function GET() {

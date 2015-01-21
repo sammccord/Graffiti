@@ -7,6 +7,26 @@
 
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
+var Page = require('../api/page/page.model');
+var Comment = require('../api/comment/comment.model');
+
+Page.find({}).remove(function(){
+	Page.create({
+		name:"techcrunch+com+2015+01+20+spacex-raises-1-billion-in-new-funding-from-google-and-fidelity+"
+	});
+})
+
+Comment.find({}).remove(function(){
+	Page.find(function(err,pages){
+		Comment.create({
+			text:'BLACH BLACH BLACH BLACH'
+		},function(err,comment){
+			pages[0].comments.push(comment._id);
+			pages[0].save();
+		})
+	})
+});
+
 
 Thing.find({}).remove(function() {
   Thing.create({

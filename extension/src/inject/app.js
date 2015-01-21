@@ -28,7 +28,7 @@ function init() {
 	if(document.domain.replace(/\./g, '+') === current_domain) return false;
 	current_domain = document.domain.replace(/\./g, '+');
 
-	$('body').prepend('<div id="infoWar"></div>');
+	$('body').prepend('<div id="graffiti-app"></div>');
 
 var Comment = React.createClass({
 	displayName: 'Comment',
@@ -49,19 +49,20 @@ var CommentBox = React.createClass({
   initialize: function() {
   	var state = this;
 
-  		modules.on('Domain',function(response){
+  		modules.on('Page',function(response){
   			if(response.err) console.log(response.err);
   			else{
-  				console.log(response);
+  				console.log(response.data);
   				// state.setState({data:response.data});
   			}
   		})
 
   		modules.send({
-  			action:'Domain',
+  			action:'Page',
   			method: 'GET',
   			args:{
-  				domain: document.domain
+  				domain: document.domain,
+  				path: window.location.pathname
   			}
   		})
   },
@@ -149,6 +150,6 @@ var CommentBox = React.createClass({
 
 	React.render(
 	  React.createElement(CommentBox),
-	  document.getElementById('infoWar')
+	  document.getElementById('graffiti-app')
 	);
 }

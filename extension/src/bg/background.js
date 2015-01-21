@@ -1,4 +1,4 @@
-var Game = new Graffiti('http://192.168.2.2:9000');
+var Game = new Graffiti('http://192.168.2.5:9000');
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if (changeInfo.status && changeInfo.status == 'complete') {
