@@ -1,6 +1,7 @@
 var Spray = React.createClass({
 	displayName: 'Spray',
 	getInitialState: function(){
+		//Anti pattern but fuck it.
 		return this.props.spray
 	},
 	componentDidMount: function(){

@@ -30,7 +30,7 @@ function init() {
     current_page = document.domain.replace(/\./g, '+') + window.location.pathname.replace(/\//g, '+');
     console.log(current_page)
 
-    $('body').append('<div id="graffiti-app"></div>');
+    $('body').prepend('<div id="graffiti-app"></div>');
 
     var GraffitiContainer = React.createClass({
         displayName: "GraffitiContainer",
