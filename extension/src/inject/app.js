@@ -15,6 +15,7 @@ var domain = {};
 var token = '';
 var current_page;
 var page_data = {};
+var container;
 
 modules.on('init', init)
 

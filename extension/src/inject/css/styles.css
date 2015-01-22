@@ -1,0 +1,7 @@
+#graffiti-app {
+	position:fixed;
+	top:30vh;
+	right:20px;
+	z-index: 9999999999999;
+	background: rgba(255,255,255,0.8);
+}
