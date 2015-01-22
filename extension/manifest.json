@@ -51,7 +51,10 @@
       "js": [
       	"src/inject/lib/lodash.js",
       	"js/jquery/jquery.min.js",
-      	"src/inject/lib/react.min.js",
+      	"src/inject/lib/react.js",
+      	"src/inject/classes/SprayList.js",
+      	"src/inject/classes/Spray.js",
+      	"src/inject/classes/Comment.js",
       	"src/inject/lib/hooks.js",
         "src/inject/app.js"
       ]

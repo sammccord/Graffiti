@@ -1,4 +1,10 @@
-var Game = new Graffiti('http://192.168.2.5:9000');
+var Game = new Graffiti('http://192.168.1.120:9000');
+var socket = io.connect('http://192.168.1.120:9000',{
+	path: '/socket.io-client',
+	transports: ['websocket'],
+	'force new connection': true
+});
+
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if (changeInfo.status && changeInfo.status == 'complete') {
@@ -14,7 +20,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 })
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-	Game[message.action]()[message.method](message.args,function(err,data){
+	Game[message.action.split(':')[0]]()[message.method](message.args,function(err,data){
 		chrome.tabs.sendMessage(sender.tab.id,{
 			action:message.action,
 			data:data,

@@ -9,12 +9,9 @@ Graffiti.prototype.Page = function() {
         GET: function(args, callback) {
             console.log(self);
             //args.domain
-            var domain = args.domain.replace(/\./g, '+');
-            var path = args.path.replace(/\//g, '+');
-            // //Convert to a param safe format to talk to api
-            console.log(domain+path);
+            console.log(args.page);
             $.ajax({
-                url: self.api + '/api/pages/'+domain+path,
+                url: self.api + '/api/pages/'+args.page,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);
@@ -39,11 +36,23 @@ Graffiti.prototype.Page = function() {
     }
 }
 
-Graffiti.prototype.User = function() {
+Graffiti.prototype.Spray = function() {
 		var self = this;
     return {
-        GET: function GET() {
-
+        GET: function GET(args,callback) {
+        	console.log(args._id);
+            $.ajax({
+                url: self.api + '/api/sprays/'+args._id,
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    callback(null, data)
+                },
+                error: function(xhr, status, err) {
+                    console.error(status, err.toString());
+                    callback(err.toString())
+                }
+            });
         },
         POST: function POST() {
 

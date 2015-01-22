@@ -3,16 +3,19 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var CommentSchema = new Schema({
+var SpraySchema = new Schema({
     name: String,
     info: String,
     active: Boolean,
-    user: Object,
-    replies: [{
+    target: {
+        text: String,
+        image: String,
+        div: String
+    },
+    comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'
-    }],
-    text: {type:String, required: true}
+    }]
 });
 
-module.exports = mongoose.model('Comment', CommentSchema);
+module.exports = mongoose.model('Spray', SpraySchema);

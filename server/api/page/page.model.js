@@ -10,9 +10,9 @@ var PageSchema = new Schema({
     },
     info: String,
     active: Boolean,
-    comments: [{
+    sprays: [{
         type: Schema.Types.ObjectId,
-        ref: 'Comment'
+        ref: 'Spray'
     }],
     monitor: {
         type: Schema.Types.ObjectId,

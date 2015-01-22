@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Page = require('./page.model');
+var Spray = require('../spray/spray.model');
 var Comment = require('../comment/comment.model.js');
 
 // Get list of pages
@@ -20,7 +21,7 @@ exports.show = function(req, res) {
     Page.findOne({
             name: req.params.name
         })
-        .populate('comments')
+        .populate('sprays')
         .exec(function(err, page) {
             if (err) {
                 return handleError(res, err);

@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/spray/spray.socket').register(socket);
   require('../api/comment/comment.socket').register(socket);
   require('../api/page/page.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
@@ -45,6 +46,7 @@ module.exports = function (socketio) {
             process.env.DOMAIN;
 
     socket.connectedAt = new Date();
+    console.log('connected at', socket.connectedAt)
 
     // Call onDisconnect.
     socket.on('disconnect', function () {
