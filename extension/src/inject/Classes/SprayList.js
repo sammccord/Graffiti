@@ -10,7 +10,8 @@ var SprayList = React.createClass({
 			return React.createElement(Spray, {spray:sprayData})
 		});
 		return (
-				React.createElement('ul',null,
+				React.createElement('ul',
+					{className:'SprayList'},
 						Sprays
 					)
 			)
