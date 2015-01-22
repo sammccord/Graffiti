@@ -1,17 +1,33 @@
 (function() {
-    $('body').prepend('<div id="graffiti-context-add"></div>');
-
-		var adder = document.getElementById('graffiti-context-add');
     $('p:not(#graffiti-app *)').addClass('graffiti-selectable');
 
     $('.graffiti-selectable').on('selectstart', function() {
-    		adder.classList.remove('graffiti-visible');
+        $('.createSpray').removeClass('graffiti-visible');
+        $('.graffiti-spray').contents().unwrap();
         $(document).one('mouseup', function(e) {
-        		console.log(e);
-	        	console.log(window.getSelection().toString());
-        		adder.classList.add('graffiti-visible');
-        		adder.style.webkitTransform = "translate("+e.screenX+"px, "+(e.screenY-100)+"px)";
+            var selection = window.getSelection();
+            if (selection.type === "Range") {
+                console.log(selection.toString());
+
+                var formatted = selection.toString().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+
+                var regex = new RegExp("("+formatted+")","g")
+                $(selection.focusNode.parentNode).html(function(_, html) {
+                    return html.replace(regex, '<span class="graffiti-spray">$1</span>');
+                });
+
+                $('.createSpray').addClass('graffiti-visible');
+            }
         });
     });
+
+    //   //Alternate for by sentence.
+    //   $("p").html(function(_, html) {
+    //   var rebuilt = "";
+    //     html.split(/[.!?][\s]{1,100}(?=[A-Z])/g).forEach(function (sentence){
+    //         rebuilt += '<span class="graffiti-">'+sentence+'.</span>';
+    //     });
+    //     return rebuilt;
+    // });
 
 })();

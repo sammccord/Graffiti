@@ -11,7 +11,7 @@ Graffiti.prototype.Page = function() {
             //args.domain
             console.log(args.page);
             $.ajax({
-                url: self.api + '/api/pages/'+args.page,
+                url: self.api + '/api/pages/' + args.page,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);
@@ -37,12 +37,12 @@ Graffiti.prototype.Page = function() {
 }
 
 Graffiti.prototype.Spray = function() {
-		var self = this;
+    var self = this;
     return {
-        GET: function GET(args,callback) {
-        	console.log(args._id);
+        GET: function GET(args, callback) {
+            console.log(args._id);
             $.ajax({
-                url: self.api + '/api/sprays/'+args._id,
+                url: self.api + '/api/sprays/' + args._id,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);
@@ -54,8 +54,21 @@ Graffiti.prototype.Spray = function() {
                 }
             });
         },
-        POST: function POST() {
-
+        POST: function POST(args, callback) {
+            console.log(args._id);
+            $.post({
+                url: self.api + '/api/sprays/',
+                dataType: 'json',
+                data: args,
+                success: function(data) {
+                    console.log(data);
+                    callback(null, data)
+                },
+                error: function(xhr, status, err) {
+                    console.error(status, err.toString());
+                    callback(err.toString())
+                }
+            });
         },
         UPDATE: function UPDATE() {
 

@@ -19,6 +19,9 @@ var Spray = React.createClass({
             }
         })
     },
+    handleCommentSubmit: function(comment) {
+        console.log(comment);
+    },
     render: function() {
         console.log('spray render', this.state);
         var Comments = this.state.comments.map(function(commentData) {
@@ -29,8 +32,11 @@ var Spray = React.createClass({
         });
         return (
             React.createElement('li', {
-                    className: 'Spray'
+                    className: 'Spray Spray-' + this.state._id
                 },
+                React.createElement(CommentForm, {
+                    onCommentSubmit: this.handleCommentSubmit
+                }),
                 React.createElement('h1', null, 'Spray'),
                 React.createElement('ul', null,
                     Comments

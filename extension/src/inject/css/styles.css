@@ -5,19 +5,12 @@
     z-index: 9999999999999;
     background: rgba(255, 255, 255, 0.8);
 }
-#graffiti-context-add {
-		cursor: 'pointer';
-    -webkit-transition: opacity .5s ease-in-out;
-    background-color:black;
-    width: 20px;
-    height: 20px;
-    position: fixed;
-    z-index: 9999999999999;
-    position: fixed;
-    opacity: 0;
+
+.graffiti-invisible{
+	display:none;
 }
-#graffiti-context-add.graffiti-visible {
-    opacity: 1;
+.graffiti-invisible.graffiti-visible{
+	display:block;
 }
 
 .SprayList {
@@ -28,4 +21,9 @@
 .SprayList .Spray {
 	border: 1px red solid;
 	padding: 2px;
+}
+
+.graffiti-spray{
+	font-color:white;
+	background-color:black;
 }

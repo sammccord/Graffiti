@@ -50,11 +50,26 @@ function init() {
         componentDidMount: function() {
             this.initialize();
         },
+        handleSpraySubmit: function(sprayComment) {
+            modules.send({
+                action: 'Spray:CREATE',
+                method: 'POST',
+                args: {
+                    page: current_page,
+                    target: {
+                        text: window.getSelection().toString()
+                    }
+                }
+            })
+        },
         render: function() {
             return (
                 React.createElement("div", {
                         className: 'graffiti-container'
                     },
+                    React.createElement(CreateSpray, {
+                        onSpraySubmit: this.handleSpraySubmit
+                    }),
                     React.createElement(SprayList, {
                         sprays: this.state.sprays
                     }, null)
@@ -67,7 +82,7 @@ function init() {
         if (response.err) console.log(response.err);
         else {
             console.log(response.data);
-            page_data = response.data;
+            page_data = response.data ? response.data : {};
             React.render(
                 React.createElement(GraffitiContainer),
                 document.getElementById('graffiti-app')
