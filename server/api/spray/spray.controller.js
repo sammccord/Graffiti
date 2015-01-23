@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Page = require('../page/page.model.js');
+var Page = require('../page/page.model');
 var Spray = require('./spray.model');
 var Comment = require('../comment/comment.model');
 
@@ -33,20 +33,31 @@ exports.show = function(req, res) {
 
 // Creates a new spray in the DB.
 exports.create = function(req, res) {
+    console.log('SPRAY CREATE', req.body);
+    console.log(req.body.target);
     Page.findOne({
-        name: req.body.name
+        name: req.body.page
     }, function(err, page) {
         var spray = new Spray({
-            target: req.body.target
+            targetText: req.body.target
         });
-        spray.save(function(err, spray) {
-            page.sprays.push(spray._id);
-            page.save(function(err, page) {
-                Page.findById(page._id)
-                    .populate('comments')
-                    .exec(function(err, page) {
-                        return res.json(page);
-                    })
+
+        Comment.create({
+            name: req.body.name,
+            text: req.body.text
+        }, function(err, comment) {
+        		console.log(arguments);
+            spray.comments.push(comment._id);
+            spray.save(function(err, spray) {
+                page.sprays.push(spray._id);
+                page.save(function(err, page) {
+                    Page.findById(page._id)
+                        .populate('sprays')
+                        .exec(function(err, page) {
+                            console.log(page);
+                            return res.json(page);
+                        })
+                })
             })
         })
     })

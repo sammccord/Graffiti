@@ -55,10 +55,9 @@ Graffiti.prototype.Spray = function() {
             });
         },
         POST: function POST(args, callback) {
-            console.log(args._id);
-            $.post({
+            $.ajax({
+                type: "POST",
                 url: self.api + '/api/sprays/',
-                dataType: 'json',
                 data: args,
                 success: function(data) {
                     console.log(data);
@@ -67,8 +66,10 @@ Graffiti.prototype.Spray = function() {
                 error: function(xhr, status, err) {
                     console.error(status, err.toString());
                     callback(err.toString())
-                }
+                },
+                dataType: 'json'
             });
+
         },
         UPDATE: function UPDATE() {
 

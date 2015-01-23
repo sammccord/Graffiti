@@ -7,11 +7,9 @@ var SpraySchema = new Schema({
     name: String,
     info: String,
     active: Boolean,
-    target: {
-        text: String,
-        image: String,
-        div: String
-    },
+    targetText: String,
+    targetDiv: String,
+    targetImage: String,
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment',

@@ -46,19 +46,30 @@ function init() {
                     this.setState(response.data);
                 }
             }.bind(this))
+
+            modules.on('Spray:CREATE', function(response) {
+                if (response.err) console.log(response.err);
+                else {
+                    console.log(response.data);
+                    this.setState(response.data);
+                }
+            }.bind(this))
         },
         componentDidMount: function() {
             this.initialize();
         },
         handleSpraySubmit: function(sprayComment) {
+        		console.log(sprayComment);
+        		var targetText = document.getElementById('graffiti-spray').getAttribute('data-graffiti-regex');
+        		console.log(targetText);
             modules.send({
                 action: 'Spray:CREATE',
                 method: 'POST',
                 args: {
+                		name: sprayComment.author,
+                		text: sprayComment.text,
                     page: current_page,
-                    target: {
-                        text: window.getSelection().toString()
-                    }
+                    targetText: targetText
                 }
             })
         },

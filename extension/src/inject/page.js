@@ -3,7 +3,7 @@
 
     $('.graffiti-selectable').on('selectstart', function() {
         $('.createSpray').removeClass('graffiti-visible');
-        $('.graffiti-spray').contents().unwrap();
+        $('#graffiti-spray').contents().unwrap();
         $(document).one('mouseup', function(e) {
             var selection = window.getSelection();
             if (selection.type === "Range") {
@@ -13,7 +13,7 @@
 
                 var regex = new RegExp("("+formatted+")","g")
                 $(selection.focusNode.parentNode).html(function(_, html) {
-                    return html.replace(regex, '<span class="graffiti-spray">$1</span>');
+                    return html.replace(regex, '<span id="graffiti-spray" data-graffiti-regex="'+formatted+'">$1</span>');
                 });
 
                 $('.createSpray').addClass('graffiti-visible');

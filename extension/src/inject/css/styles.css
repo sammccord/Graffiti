@@ -23,7 +23,7 @@
 	padding: 2px;
 }
 
-.graffiti-spray{
-	font-color:white;
+#graffiti-spray{
+	color:white;
 	background-color:black;
 }

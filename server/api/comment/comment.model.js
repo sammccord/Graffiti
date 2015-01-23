@@ -12,7 +12,7 @@ var CommentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Comment'
     }],
-    text: {type:String, required: true}
+    text: String
 });
 
 module.exports = mongoose.model('Comment', CommentSchema);

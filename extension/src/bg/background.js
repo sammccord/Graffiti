@@ -20,6 +20,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 })
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+	console.log(Game[message.action.split(':')[0]]);
 	Game[message.action.split(':')[0]]()[message.method](message.args,function(err,data){
 		chrome.tabs.sendMessage(sender.tab.id,{
 			action:message.action,
