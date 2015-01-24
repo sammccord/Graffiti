@@ -14,6 +14,10 @@
 	display:block;
 }
 
+.graffiti-scroller {
+	font-size: 24px;
+}
+
 .SprayList {
 	border: 1px black solid;
 	padding: 3px;
@@ -30,8 +34,18 @@
 }
 
 .graffiti-spray{
-	color:black;
-	background-color:red;
+	background-color: #d1e6f9;
+	cursor: pointer;
+	-webkit-transition: all .25s ease-in;
+}
+
+.graffiti-spray.graffiti-spray-highlight{
+	background-color: #d1e6f9;
+}
+
+.graffiti-count {
+	position:absolute;
+	color:#d1e6f9;
 }
 
 ul.SprayList{

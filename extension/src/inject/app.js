@@ -73,6 +73,12 @@ function init() {
             })
         },
         presentSprays: [],
+        addSprayHighlight: function(){
+        	$('.graffiti-spray').addClass('graffiti-spray-highlight')
+        },
+        removeSprayHighlight: function(){
+        	$('.graffiti-spray').removeClass('graffiti-spray-highlight')
+        },
         render: function() {
         		console.log('app rendering');
             this.state.sprays.forEach(function(spray) {
@@ -85,6 +91,13 @@ function init() {
                             $(el).html(function(_, html) {
                                 return html.replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>');
                             });
+                        })
+                        $.each($('.graffiti-count'),function(index,el){
+                        	console.log($(el).parent().width() - $(el).position().left);
+                        	var offset = ($(el).parent().width() - $(el).position().left) - 20;
+                        	$(el).css({
+                        		'-webkit-transform':'translateX('+(offset*-1)+'px)'
+                        	})
                         })
                         $('[data-graffiti-id]').on('mouseenter', function() {
                             var targetId = this.getAttribute('data-graffiti-id');
@@ -117,7 +130,9 @@ function init() {
                         className: 'graffiti-container'
                     },
                     React.createElement("div", {
-                        className: 'graffiti-scroller'
+                        className: 'graffiti-scroller',
+                        onMouseEnter: this.addSprayHighlight,
+                        onMouseLeave: this.removeSprayHighlight
                     }, '0'),
                     React.createElement(CreateSpray, {
                         onSpraySubmit: this.handleSpraySubmit
