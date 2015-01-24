@@ -42,7 +42,7 @@ Graffiti.prototype.Spray = function() {
         GET: function GET(args, callback) {
             console.log(args._id);
             $.ajax({
-                url: self.api + '/api/sprays/' + args._id,
+                url: self.api + '/api/sprays/' + args.id,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);
@@ -58,6 +58,38 @@ Graffiti.prototype.Spray = function() {
             $.ajax({
                 type: "POST",
                 url: self.api + '/api/sprays/',
+                data: args,
+                success: function(data) {
+                    console.log(data);
+                    callback(null, data)
+                },
+                error: function(xhr, status, err) {
+                    console.error(status, err.toString());
+                    callback(err.toString())
+                },
+                dataType: 'json'
+            });
+
+        },
+        UPDATE: function UPDATE() {
+
+        },
+        DELETE: function DELETE() {
+
+        }
+    }
+}
+
+Graffiti.prototype.Comment = function() {
+    var self = this;
+    return {
+        GET: function GET(args, callback) {
+
+        },
+        POST: function POST(args, callback) {
+            $.ajax({
+                type: "POST",
+                url: self.api + '/api/comments/',
                 data: args,
                 success: function(data) {
                     console.log(data);

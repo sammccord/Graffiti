@@ -7,13 +7,14 @@
         $(document).one('mouseup', function(e) {
             var selection = window.getSelection();
             if (selection.type === "Range") {
-                console.log(selection.toString());
+                console.log(selection);
 
-                var formatted = selection.toString().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                var string = selection.toString();
+                var formatted = string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 
-                var regex = new RegExp("("+formatted+")","g")
+                var regex = new RegExp("(" + formatted + ")", "g")
                 $(selection.focusNode.parentNode).html(function(_, html) {
-                    return html.replace(regex, '<span id="graffiti-spray" data-graffiti-regex="'+formatted+'">$1</span>');
+                    return html.replace(regex, '<span id="graffiti-spray" data-graffiti-target="' + string + '">$1</span>');
                 });
 
                 $('.createSpray').addClass('graffiti-visible');

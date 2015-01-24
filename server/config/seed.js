@@ -20,7 +20,8 @@ Page.find({}).remove(function() {
 Spray.find({}).remove(function() {
     Page.find(function(err, pages) {
         Spray.create({
-            name: 'TESTSPRAY'
+            name: 'TESTSPRAY',
+            targetText: 'Google and Fidelity get an ownership stake'
         }, function(err, spray) {
             console.log(spray);
             pages[0].sprays.push(spray._id);

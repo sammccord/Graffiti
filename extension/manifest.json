@@ -53,6 +53,7 @@
       	"src/inject/lib/lodash.js",
       	"js/jquery/jquery.min.js",
       	"src/inject/lib/react.js",
+      	"src/inject/lib/scrollIntoView.js",
       	"src/inject/classes/SprayList.js",
       	"src/inject/classes/CreateSpray.js",
       	"src/inject/classes/CommentForm.js",

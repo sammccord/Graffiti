@@ -39,7 +39,7 @@ exports.create = function(req, res) {
         name: req.body.page
     }, function(err, page) {
         var spray = new Spray({
-            targetText: req.body.target
+            targetText: req.body.targetText
         });
 
         Comment.create({

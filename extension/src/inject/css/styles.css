@@ -1,6 +1,7 @@
 #graffiti-app {
+		padding:0;
     position: fixed;
-    top: 30vh;
+    top: 10vh;
     right: 20px;
     z-index: 9999999999999;
     background: rgba(255, 255, 255, 0.8);
@@ -26,4 +27,19 @@
 #graffiti-spray{
 	color:white;
 	background-color:black;
+}
+
+.graffiti-spray{
+	color:black;
+	background-color:red;
+}
+
+ul.SprayList{
+	max-height: 320px;
+	overflow:scroll;
+}
+
+ul.SprayList li.Spray {
+	margin: 10px 0px 10px 0px;
+	background-color:white;
 }

@@ -15,6 +15,7 @@ var domain = {};
 var token = '';
 var current_page;
 var page_data = {};
+var _watch = [];
 var container;
 
 modules.on('init', init)
@@ -42,7 +43,6 @@ function init() {
             modules.on('Page:GET', function(response) {
                 if (response.err) console.log(response.err);
                 else {
-                    console.log(response.data);
                     this.setState(response.data);
                 }
             }.bind(this))
@@ -50,7 +50,6 @@ function init() {
             modules.on('Spray:CREATE', function(response) {
                 if (response.err) console.log(response.err);
                 else {
-                    console.log(response.data);
                     this.setState(response.data);
                 }
             }.bind(this))
@@ -59,25 +58,67 @@ function init() {
             this.initialize();
         },
         handleSpraySubmit: function(sprayComment) {
-        		console.log(sprayComment);
-        		var targetText = document.getElementById('graffiti-spray').getAttribute('data-graffiti-regex');
-        		console.log(targetText);
+            var targetText = document.getElementById('graffiti-spray').getAttribute('data-graffiti-target');
+            console.log(targetText);
+            $('#graffiti-spray').contents().unwrap();
             modules.send({
                 action: 'Spray:CREATE',
                 method: 'POST',
                 args: {
-                		name: sprayComment.author,
-                		text: sprayComment.text,
+                    name: sprayComment.author,
+                    text: sprayComment.text,
                     page: current_page,
                     targetText: targetText
                 }
             })
         },
+        presentSprays: [],
         render: function() {
+        		console.log('app rendering');
+            this.state.sprays.forEach(function(spray) {
+                if (this.presentSprays.lastIndexOf(spray._id) === -1) {
+                    this.presentSprays.push(spray._id);
+                    if (spray.targetText) {
+                        var formatted = spray.targetText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                        var regex = new RegExp("(" + formatted + ")", "g")
+                        $.each($('p:not(#graffiti-app *)'), function(index, el) {
+                            $(el).html(function(_, html) {
+                                return html.replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>');
+                            });
+                        })
+                        $('[data-graffiti-id]').on('mouseenter', function() {
+                            var targetId = this.getAttribute('data-graffiti-id');
+                            $('.SprayList').animate({
+                                scrollTop: $(".Spray.Spray-" + targetId + "").offset().top
+                            }, 500);
+                        })
+                        $('.graffiti-scroller').html('0');
+                        $('[graffiti-count-id]')
+                            .scrolledIntoView()
+                            .on('scrolledin', function() {
+                                console.log('in ' + $(this).text());
+                                $('.graffiti-scroller').html(function(_, html) {
+                                    return parseInt(html) + parseInt($(this).text());
+                                }.bind(this));
+                            })
+                            .on('scrolledout', function() {
+                                console.log('out ' + $(this).text());
+                                $('.graffiti-scroller').html(function(_, html) {
+                                    return parseInt(html) - parseInt($(this).text());
+                                }.bind(this));
+                            });
+                        $(window).scrollTop($(window).scrollTop() + 1);
+                    }
+                }
+            }.bind(this))
+
             return (
                 React.createElement("div", {
                         className: 'graffiti-container'
                     },
+                    React.createElement("div", {
+                        className: 'graffiti-scroller'
+                    }, '0'),
                     React.createElement(CreateSpray, {
                         onSpraySubmit: this.handleSpraySubmit
                     }),
@@ -92,7 +133,6 @@ function init() {
     modules.on('Page:INIT', function(response) {
         if (response.err) console.log(response.err);
         else {
-            console.log(response.data);
             page_data = response.data ? response.data : {};
             React.render(
                 React.createElement(GraffitiContainer),
