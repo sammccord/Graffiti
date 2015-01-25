@@ -1,5 +1,6 @@
-var Game = new Graffiti('http://192.168.1.120:9000');
-var socket = io.connect('http://192.168.1.120:9000',{
+//PUT YOUR IP ADDRESS HERE with http:// in front of it. It's important.
+var Graffiti = new Graffiti('http://192.168.2.5:9000');
+var socket = io.connect('http://192.168.2.5:9000',{
 	path: '/socket.io-client',
 	transports: ['websocket'],
 	'force new connection': true
@@ -20,8 +21,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 })
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-	console.log(Game[message.action.split(':')[0]]);
-	Game[message.action.split(':')[0]]()[message.method](message.args,function(err,data){
+	console.log(Graffiti[message.action.split(':')[0]]);
+	Graffiti[message.action.split(':')[0]]()[message.method](message.args,function(err,data){
 		chrome.tabs.sendMessage(sender.tab.id,{
 			action:message.action,
 			data:data,

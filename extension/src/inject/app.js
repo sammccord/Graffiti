@@ -42,10 +42,20 @@ function init() {
         componentDidMount: function() {
             //SET UP APP HOOKS
             modules.on('Page:GET', function(response) {
-            		console.log('FIRING PAGE GET', response);
+                console.log('FIRING PAGE GET', response);
                 if (response.err) console.log(response.err);
                 else {
                     this.setState(response.data);
+                }
+            }.bind(this))
+
+            modules.on('Page:CREATE', function(response) {
+                console.log('FIRING PAGE CREATED', response);
+                if (response.err) console.log(response.err);
+                else {
+                    response.data.fresh = false;
+                    this.setState(response.data);
+                    console.log(this.state);
                 }
             }.bind(this))
 
@@ -56,7 +66,7 @@ function init() {
                         action: 'Page:GET',
                         method: 'GET',
                         args: {
-                            id: page_data._id
+                            id: this.state._id
                         }
                     })
                 }
@@ -81,16 +91,31 @@ function init() {
                 var targetText = document.getElementById('graffiti-spray').getAttribute('data-graffiti-target');
                 console.log(targetText);
                 $('#graffiti-spray').contents().unwrap();
-                modules.send({
-                    action: 'Spray:CREATE',
-                    method: 'POST',
-                    args: {
-                        name: sprayComment.author,
-                        text: sprayComment.text,
-                        page: current_page,
-                        targetText: targetText
-                    }
-                })
+                if (this.state.fresh === true) {
+                    console.log('FRESH PAGE')
+                    modules.send({
+                        action: 'Page:CREATE',
+                        method: 'POST',
+                        args: {
+                            page: current_page,
+                            name: sprayComment.author,
+                            text: sprayComment.text,
+                            page: current_page,
+                            targetText: targetText
+                        }
+                    })
+                } else {
+                    modules.send({
+                        action: 'Spray:CREATE',
+                        method: 'POST',
+                        args: {
+                            name: sprayComment.author,
+                            text: sprayComment.text,
+                            page: current_page,
+                            targetText: targetText
+                        }
+                    })
+                }
             } else if (this.targetSpray) {
                 console.log(sprayComment);
                 var sprayId = this.targetSpray;
@@ -187,12 +212,25 @@ function init() {
 
     modules.on('Page:INIT', function(response) {
         if (response.err) console.log(response.err);
-        else {
-            page_data = response.data ? response.data : {};
-            React.render(
-                React.createElement(GraffitiContainer),
-                document.getElementById('graffiti-app')
-            );
+        if ($('.graffiti-selectable').length > 0) {
+            if (response.err === "Not Found") {
+                page_data = {
+                    fresh: true,
+                    name: current_page,
+                    sprays: []
+                }
+                return React.render(
+                    React.createElement(GraffitiContainer),
+                    document.getElementById('graffiti-app')
+                );
+            } else {
+                console.log(response.data);
+                page_data = response.data ? response.data : {};
+                return React.render(
+                    React.createElement(GraffitiContainer),
+                    document.getElementById('graffiti-app')
+                );
+            }
         }
     })
 

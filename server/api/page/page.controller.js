@@ -18,12 +18,12 @@ exports.index = function(req, res) {
 
 // Get a single page
 exports.show = function(req, res) {
-		console.log('getting page');
+    console.log('getting page');
     if (req.query.id) {
         Page.findById(req.query.id)
             .deepPopulate('sprays.comments')
             .exec(function(err, page) {
-            		console.log(page);
+                console.log(page);
                 if (err) {
                     return handleError(res, err);
                 }
@@ -39,7 +39,7 @@ exports.show = function(req, res) {
             })
             .deepPopulate('sprays.comments')
             .exec(function(err, page) {
-            		console.log(page);
+                console.log(page);
                 if (err) {
                     return handleError(res, err);
                 }
@@ -54,12 +54,39 @@ exports.show = function(req, res) {
 
 // Creates a new page in the DB.
 exports.create = function(req, res) {
-    Page.create(req.body, function(err, page) {
-        if (err) {
-            return handleError(res, err);
-        }
-        return res.json(201, page);
+    var page = new Page({
+        name: req.body.page
     });
+
+    var spray = new Spray({
+        targetText: req.body.targetText
+    })
+
+    var comment = new Comment({
+        name: req.body.name,
+        text: req.body.text
+    })
+
+    comment.save(function(err, comment) {
+        spray.comments.push(comment._id);
+        spray.save(function(err, spray) {
+            page.sprays.push(spray._id);
+            page.save(function(err, page) {
+                Page.findById(page._id)
+                    .deepPopulate('sprays.comments')
+                    .exec(function(err, page) {
+                        if (err) {
+                            return handleError(res, err);
+                        }
+                        if (!page) {
+                            return res.send(404);
+                        }
+                        console.log(page);
+                        return res.json(page);
+                    })
+            })
+        })
+    })
 };
 
 // Updates an existing page in the DB.
