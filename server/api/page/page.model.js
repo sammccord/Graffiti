@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var deepPopulate = require('mongoose-deep-populate');
+
 var PageSchema = new Schema({
     name: {
         type: String,
@@ -19,5 +21,7 @@ var PageSchema = new Schema({
         ref: 'User'
     }
 });
+
+PageSchema.plugin(deepPopulate, {});
 
 module.exports = mongoose.model('Page', PageSchema);

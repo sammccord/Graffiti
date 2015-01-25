@@ -39,8 +39,10 @@ function init() {
         getInitialState: function() {
             return page_data;
         },
-        initialize: function() {
+        componentDidMount: function() {
+            //SET UP APP HOOKS
             modules.on('Page:GET', function(response) {
+            		console.log('FIRING PAGE GET', response);
                 if (response.err) console.log(response.err);
                 else {
                     this.setState(response.data);
@@ -50,37 +52,69 @@ function init() {
             modules.on('Spray:CREATE', function(response) {
                 if (response.err) console.log(response.err);
                 else {
-                    this.setState(response.data);
+                    modules.send({
+                        action: 'Page:GET',
+                        method: 'GET',
+                        args: {
+                            id: page_data._id
+                        }
+                    })
+                }
+            }.bind(this))
+
+            modules.on('Comment:CREATE', function(response) {
+                if (response.err) console.log(response.err);
+                else {
+                    modules.send({
+                        action: 'Page:GET',
+                        method: 'GET',
+                        args: {
+                            id: page_data._id
+                        }
+                    })
                 }
             }.bind(this))
         },
-        componentDidMount: function() {
-            this.initialize();
-        },
-        handleSpraySubmit: function(sprayComment) {
-            var targetText = document.getElementById('graffiti-spray').getAttribute('data-graffiti-target');
-            console.log(targetText);
-            $('#graffiti-spray').contents().unwrap();
-            modules.send({
-                action: 'Spray:CREATE',
-                method: 'POST',
-                args: {
-                    name: sprayComment.author,
-                    text: sprayComment.text,
-                    page: current_page,
-                    targetText: targetText
-                }
-            })
+        targetSpray: '',
+        handleCommentSubmit: function(sprayComment) {
+            if ($('#graffiti-spray').length > 0) {
+                var targetText = document.getElementById('graffiti-spray').getAttribute('data-graffiti-target');
+                console.log(targetText);
+                $('#graffiti-spray').contents().unwrap();
+                modules.send({
+                    action: 'Spray:CREATE',
+                    method: 'POST',
+                    args: {
+                        name: sprayComment.author,
+                        text: sprayComment.text,
+                        page: current_page,
+                        targetText: targetText
+                    }
+                })
+            } else if (this.targetSpray) {
+                console.log(sprayComment);
+                var sprayId = this.targetSpray;
+                modules.send({
+                    action: 'Comment:CREATE',
+                    method: 'POST',
+                    args: {
+                        id: sprayId,
+                        name: sprayComment.author,
+                        text: sprayComment.text,
+                    }
+                })
+            }
         },
         presentSprays: [],
-        addSprayHighlight: function(){
-        	$('.graffiti-spray').addClass('graffiti-spray-highlight')
+        addSprayHighlight: function() {
+            $('.graffiti-spray,.graffiti-count').addClass('graffiti-highlight')
         },
-        removeSprayHighlight: function(){
-        	$('.graffiti-spray').removeClass('graffiti-spray-highlight')
+        removeSprayHighlight: function() {
+            $('.graffiti-spray,.graffiti-count').removeClass('graffiti-highlight')
         },
         render: function() {
-        		console.log('app rendering');
+            var state = this;
+            console.log('app rendering');
             this.state.sprays.forEach(function(spray) {
                 if (this.presentSprays.lastIndexOf(spray._id) === -1) {
                     this.presentSprays.push(spray._id);
@@ -92,30 +126,36 @@ function init() {
                                 return html.replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>');
                             });
                         })
-                        $.each($('.graffiti-count'),function(index,el){
-                        	console.log($(el).parent().width() - $(el).position().left);
-                        	var offset = ($(el).parent().width() - $(el).position().left) - 20;
-                        	$(el).css({
-                        		'-webkit-transform':'translateX('+(offset*-1)+'px)'
-                        	})
+
+                        $.each($('.graffiti-count'), function(index, el) {
+                            var offset = ($(el).parent().width() + $(el).parent().offset().left);
+                            $(el).css({
+                                '-webkit-transform': 'translateX(' + offset + 'px)'
+                            })
                         })
+
                         $('[data-graffiti-id]').on('mouseenter', function() {
                             var targetId = this.getAttribute('data-graffiti-id');
                             $('.SprayList').animate({
                                 scrollTop: $(".Spray.Spray-" + targetId + "").offset().top
                             }, 500);
+                        }).on('click', function() {
+                            var selectedGraffiti = $(this).attr('data-graffiti-id');
+                            state.targetSpray = selectedGraffiti;
+                            // $('ul.SprayList li.Spray:not(.Spray-' + selectedGraffiti + ')').removeClass('graffiti-visible');
+                            $('#graffiti-spray').contents().unwrap();
+                            $('.commentForm').addClass('graffiti-visible');
                         })
+
                         $('.graffiti-scroller').html('0');
                         $('[graffiti-count-id]')
                             .scrolledIntoView()
                             .on('scrolledin', function() {
-                                console.log('in ' + $(this).text());
                                 $('.graffiti-scroller').html(function(_, html) {
                                     return parseInt(html) + parseInt($(this).text());
                                 }.bind(this));
                             })
                             .on('scrolledout', function() {
-                                console.log('out ' + $(this).text());
                                 $('.graffiti-scroller').html(function(_, html) {
                                     return parseInt(html) - parseInt($(this).text());
                                 }.bind(this));
@@ -134,8 +174,8 @@ function init() {
                         onMouseEnter: this.addSprayHighlight,
                         onMouseLeave: this.removeSprayHighlight
                     }, '0'),
-                    React.createElement(CreateSpray, {
-                        onSpraySubmit: this.handleSpraySubmit
+                    React.createElement(CommentForm, {
+                        onCommentSubmit: this.handleCommentSubmit
                     }),
                     React.createElement(SprayList, {
                         sprays: this.state.sprays

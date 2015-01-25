@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var deepPopulate = require('mongoose-deep-populate');
+
 var CommentSchema = new Schema({
     name: String,
     info: String,
@@ -14,5 +16,7 @@ var CommentSchema = new Schema({
     }],
     text: String
 });
+
+CommentSchema.plugin(deepPopulate, {});
 
 module.exports = mongoose.model('Comment', CommentSchema);

@@ -18,20 +18,38 @@ exports.index = function(req, res) {
 
 // Get a single page
 exports.show = function(req, res) {
-    Page.findOne({
-            name: req.params.name
-        })
-        .populate('sprays')
-        .exec(function(err, page) {
-            if (err) {
-                return handleError(res, err);
-            }
-            if (!page) {
-                return res.send(404);
-            }
-            console.log(page);
-            return res.json(page);
-        })
+		console.log('getting page');
+    if (req.query.id) {
+        Page.findById(req.query.id)
+            .deepPopulate('sprays.comments')
+            .exec(function(err, page) {
+            		console.log(page);
+                if (err) {
+                    return handleError(res, err);
+                }
+                if (!page) {
+                    return res.send(404);
+                }
+                console.log(page);
+                return res.json(page);
+            })
+    } else {
+        Page.findOne({
+                name: req.params.name
+            })
+            .deepPopulate('sprays.comments')
+            .exec(function(err, page) {
+            		console.log(page);
+                if (err) {
+                    return handleError(res, err);
+                }
+                if (!page) {
+                    return res.send(404);
+                }
+                console.log(page);
+                return res.json(page);
+            })
+    }
 };
 
 // Creates a new page in the DB.

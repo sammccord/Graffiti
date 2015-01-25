@@ -37,14 +37,7 @@ exports.create = function(req, res) {
         comment.save(function(err, comment) {
             spray.comments.push(comment._id)
             spray.save(function(err, spray) {
-                Spray.findById(spray._id)
-                    .populate('comments')
-                    .exec(function(err, spray) {
-                        if (err) {
-                            return handleError(res, err);
-                        }
-                        res.json(spray);
-                    })
+                res.json(comment);
             })
         })
     })

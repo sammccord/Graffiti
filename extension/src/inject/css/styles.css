@@ -16,21 +16,22 @@
 
 .graffiti-scroller {
 	font-size: 24px;
+	padding: 12px;
+	cursor: pointer;
 }
 
 .SprayList {
-	border: 1px black solid;
 	padding: 3px;
 }
 
 .SprayList .Spray {
-	border: 1px red solid;
+	border-bottom: 1px #4898e2 solid;
 	padding: 2px;
 }
 
 #graffiti-spray{
 	color:white;
-	background-color:black;
+	background-color:#4898e2;
 }
 
 .graffiti-spray{
@@ -39,13 +40,21 @@
 	-webkit-transition: all .25s ease-in;
 }
 
-.graffiti-spray.graffiti-spray-highlight{
+.graffiti-spray.graffiti-highlight{
 	background-color: #d1e6f9;
 }
 
 .graffiti-count {
+	margin-left: -.5em;
+	left:0;
 	position:absolute;
-	color:#d1e6f9;
+	color:#4898e2;
+	opacity: 1;
+	-webkit-transition: opacity .25s ease-in;
+}
+
+.graffiti-count.graffiti-highlight {
+	opacity: 1;
 }
 
 ul.SprayList{

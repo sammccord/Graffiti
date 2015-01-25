@@ -13,9 +13,16 @@ var CommentForm = React.createClass({
     this.refs.text.getDOMNode().value = '';
     return;
   },
+  handleFormView: function(){
+  	console.log('handling view');
+  },
   render: function() {
     return (
-      React.createElement("form", {className: "commentForm", onSubmit: this.handleSubmit},
+    	React.createElement('button',{
+    		className: 'add-comment-button',
+    		onClick: this.handleFormView
+    }),
+      React.createElement("form", {className: "commentForm graffiti-invisible", onSubmit: this.handleSubmit},
         React.createElement("input", {type: "text", placeholder: "Your name", ref: "author"}),
         React.createElement("input", {type: "text", placeholder: "Say something...", ref: "text"}),
         React.createElement("input", {type: "submit", value: "Post"})

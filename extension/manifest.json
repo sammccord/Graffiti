@@ -55,7 +55,6 @@
       	"src/inject/lib/react.js",
       	"src/inject/lib/scrollIntoView.js",
       	"src/inject/classes/SprayList.js",
-      	"src/inject/classes/CreateSpray.js",
       	"src/inject/classes/CommentForm.js",
       	"src/inject/classes/Spray.js",
       	"src/inject/classes/Comment.js",

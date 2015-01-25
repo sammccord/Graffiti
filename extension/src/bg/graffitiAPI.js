@@ -10,8 +10,12 @@ Graffiti.prototype.Page = function() {
             console.log(self);
             //args.domain
             console.log(args.page);
+            var params = ''
+            if(args.id){
+            	params = '?id='+args.id
+            }
             $.ajax({
-                url: self.api + '/api/pages/' + args.page,
+                url: self.api + '/api/pages/' + args.page+params,
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);

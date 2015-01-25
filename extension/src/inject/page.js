@@ -17,7 +17,7 @@
                     return html.replace(regex, '<span id="graffiti-spray" data-graffiti-target="' + string + '">$1</span>');
                 });
 
-                $('.createSpray').addClass('graffiti-visible');
+                $('.commentForm').addClass('graffiti-visible');
             }
         });
     });

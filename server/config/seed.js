@@ -35,6 +35,7 @@ Comment.find({}).remove(function() {
         if (sprays.length === 0) setTimeout(function() {
             Spray.find(function(err, sprays) {
                 Comment.create({
+                		name: 'First author on page',
                     text: 'I COMMENT BLAH BLAH YEAH YEAH WHATEVER'
                 }, function(err, comment) {
                     sprays[0].comments.push(comment._id);

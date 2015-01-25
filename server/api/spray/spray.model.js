@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var deepPopulate = require('mongoose-deep-populate');
+
 var SpraySchema = new Schema({
     name: String,
     info: String,
@@ -16,5 +18,7 @@ var SpraySchema = new Schema({
         default: []
     }]
 });
+
+SpraySchema.plugin(deepPopulate, {});
 
 module.exports = mongoose.model('Spray', SpraySchema);
