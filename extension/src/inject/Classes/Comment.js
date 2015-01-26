@@ -3,6 +3,8 @@ var Comment = React.createClass({
     render: function() {
         var name = this.props.comment.name ? this.props.comment.name : '';
         var text = this.props.comment.text ? this.props.comment.text : '';
+        var endTime = new Date();
+
         return (
             React.createElement('li', {className:'SprayComment'},
                 React.createElement('h3', null,
