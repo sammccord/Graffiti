@@ -19,7 +19,6 @@ var Spray = React.createClass({
     //     })
     // },
     render: function() {
-    		console.log(this.state);
         var Comments = this.props.spray.comments.map(function(commentData) {
             return React.createElement(Comment, {
                 comment: commentData,

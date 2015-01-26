@@ -8,7 +8,11 @@ var Page = require('./page.model');
 
 exports.register = function(socket) {
   Page.schema.post('save', function (doc) {
-    onSave(socket, doc);
+  	doc.deepPopulate('sprays.comments',function(err,page){
+  		console.log('POPULATING THE PAGE SOCKET');
+  		console.log(arguments);
+  		onSave(socket, doc);
+  	});
   });
   Page.schema.post('remove', function (doc) {
     onRemove(socket, doc);

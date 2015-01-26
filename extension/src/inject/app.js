@@ -41,7 +41,7 @@ function init() {
         },
         componentDidMount: function() {
             //SET UP APP HOOKS
-            modules.on('Page:GET', function(response) {
+            modules.on('Page:'+this.state._id, function(response) {
                 console.log('FIRING PAGE GET', response);
                 if (response.err) console.log(response.err);
                 else {
@@ -63,7 +63,7 @@ function init() {
                 if (response.err) console.log(response.err);
                 else {
                     modules.send({
-                        action: 'Page:GET',
+                        action: 'Page:'+this.state._id,
                         method: 'GET',
                         args: {
                             id: this.state._id
@@ -76,10 +76,10 @@ function init() {
                 if (response.err) console.log(response.err);
                 else {
                     modules.send({
-                        action: 'Page:GET',
+                        action: 'Page:'+this.state._id,
                         method: 'GET',
                         args: {
-                            id: page_data._id
+                            id: this.state._id
                         }
                     })
                 }
@@ -146,7 +146,7 @@ function init() {
                     if (spray.targetText) {
                         var formatted = spray.targetText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                         var regex = new RegExp("(" + formatted + ")", "g")
-                        $.each($('p:not(#graffiti-app *)'), function(index, el) {
+                        $.each($('p.graffiti-selectable:not(#graffiti-app *)'), function(index, el) {
                             $(el).html(function(_, html) {
                                 return html.replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>');
                             });
