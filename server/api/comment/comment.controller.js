@@ -32,7 +32,8 @@ exports.create = function(req, res) {
     Spray.findById(req.body.id, function(err, spray) {
         var comment = new Comment({
             name: req.body.name,
-            text: req.body.text
+            text: req.body.text,
+            createdAt: req.body.createdAt
         })
         comment.save(function(err, comment) {
             spray.comments.push(comment._id)

@@ -1,67 +1,81 @@
 #graffiti-app {
-		padding:0;
+    padding: 0;
     position: fixed;
     top: 10vh;
     right: 20px;
     z-index: 9999999999999;
-    background: rgba(255, 255, 255, 0.8);
+}
+#graffiti-app .graffiti-container {
+		overflow:hidden;
+		-webkit-transition:max-width .25s linear,max-height .25s linear, border-radius .25s linear;
+    max-width: 80px;
+    max-height: 80px;
+    background: rgba(255,255,255,1);
+    border: 4px double #5cb1fc;
+    border-radius: 50%;
 }
 
-.graffiti-invisible{
-	display:none;
-}
-.graffiti-invisible.graffiti-visible{
-	display:block;
+#graffiti-app .graffiti-container.graffiti-expand {
+    max-width: 200px;
+    max-height: 999px;
+    border-radius: 5%;
 }
 
+.graffiti-invisible {
+    display: none;
+}
+.graffiti-invisible.graffiti-visible {
+    display: block;
+}
 .graffiti-scroller {
-	font-size: 24px;
-	padding: 12px;
-	cursor: pointer;
+    font-size: 52px;
+    cursor: pointer;
+    color:#4195e8 !important;
+    padding: 28px 20px 40px 20px;
 }
-
 .SprayList {
-	padding: 3px;
+  	padding:0;
 }
-
 .SprayList .Spray {
-	border-bottom: 1px #4898e2 solid;
-	padding: 2px;
+    border-top: 1px #4898e2 solid;
+    padding: 0;
+}
+#graffiti-spray {
+    color: white;
+    background-color: #4898e2;
 }
 
-#graffiti-spray{
-	color:white;
-	background-color:#4898e2;
+.graffiti-spray {
+    background-color: #d1e6f9;
+    cursor: pointer;
+    -webkit-transition: all .25s ease-in;
 }
-
-.graffiti-spray{
-	background-color: #d1e6f9;
-	cursor: pointer;
-	-webkit-transition: all .25s ease-in;
+.graffiti-spray.graffiti-highlight {
+    background-color: #d1e6f9;
 }
-
-.graffiti-spray.graffiti-highlight{
-	background-color: #d1e6f9;
+.graffiti-spray.graffiti-focus {
+    background-color: #4898e2;
 }
-
 .graffiti-count {
-	left:0;
-	position:absolute;
-	color:#4898e2;
-	opacity: 1;
-	-webkit-transition: opacity .25s ease-in;
+    left: 0;
+    position: absolute;
+    color: #4898e2;
+    opacity: 1;
+    -webkit-transition: opacity .25s ease-in;
 }
-
 .graffiti-count.graffiti-highlight {
-	opacity: 1;
+    opacity: 1;
 }
-
-ul.SprayList{
-	max-height: 320px;
-	overflow:scroll;
+ul.SprayList {
+    max-height: 320px;
+    overflow: scroll;
 }
-
 ul.SprayList li.Spray {
-	margin: 10px 0px 10px 0px;
-	background-color:white;
+		padding: 1em;
+    margin: 10px 0px 10px 0px;
+    background-color: white;
 }
+
+ ul.SprayList li.Spray ul.SprayComments li.SprayComment {
+ 	padding-top:1em;
+ }

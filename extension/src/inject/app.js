@@ -111,6 +111,7 @@ function init() {
                         args: {
                             name: sprayComment.author,
                             text: sprayComment.text,
+                            createdAt: Date.now(),
                             page: current_page,
                             targetText: targetText
                         }
@@ -197,7 +198,11 @@ function init() {
                     React.createElement("div", {
                         className: 'graffiti-scroller',
                         onMouseEnter: this.addSprayHighlight,
-                        onMouseLeave: this.removeSprayHighlight
+                        onMouseLeave: this.removeSprayHighlight,
+                        onClick: function(){
+                        	console.log('hey');
+                        	$('.graffiti-container').toggleClass('graffiti-expand');
+                        }
                     }, '0'),
                     React.createElement(CommentForm, {
                         onCommentSubmit: this.handleCommentSubmit
