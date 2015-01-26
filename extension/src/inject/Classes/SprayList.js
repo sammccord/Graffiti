@@ -12,8 +12,8 @@ var SprayList = React.createClass({
             })
         });
         return (
-            React.createElement('ul', {
-                    className: 'SprayList'
+            React.createElement('div', {
+                    className: 'SprayList container'
                 },
                 Sprays
             )

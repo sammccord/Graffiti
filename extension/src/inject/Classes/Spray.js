@@ -32,8 +32,8 @@ var Spray = React.createClass({
             })
         });
         return (
-            React.createElement('li', {
-                    className: 'Spray Spray-' + this.props.spray._id+' graffiti-invisible graffiti-visible',
+            React.createElement('div', {
+                    className: 'Spray Spray-' + this.props.spray._id+' graffiti-invisible graffiti-visible row',
                     onMouseEnter: this.addSprayFocus,
 	                  onMouseLeave: this.removeSprayFocus
                 },

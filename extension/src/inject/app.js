@@ -111,7 +111,6 @@ function init() {
                         args: {
                             name: sprayComment.author,
                             text: sprayComment.text,
-                            createdAt: Date.now(),
                             page: current_page,
                             targetText: targetText
                         }

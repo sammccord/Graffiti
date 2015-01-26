@@ -15,7 +15,7 @@ var CommentSchema = new Schema({
         ref: 'Comment'
     }],
     text: String,
-    createdAt: Date
+    createdAt: {type: Date, default: Date.now}
 });
 
 CommentSchema.plugin(deepPopulate, {});
