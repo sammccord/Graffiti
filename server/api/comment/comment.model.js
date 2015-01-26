@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 var deepPopulate = require('mongoose-deep-populate');
 
 var CommentSchema = new Schema({
+		pageRef: String,
     name: String,
     info: String,
     active: Boolean,

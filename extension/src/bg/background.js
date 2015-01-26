@@ -1,6 +1,6 @@
 //PUT YOUR IP ADDRESS HERE with http:// in front of it. It's important.
-var Graffiti = new Graffiti('http://192.168.1.120:9000');
-var socket = io.connect('http://192.168.1.120:9000', {
+var Graffiti = new Graffiti('http://192.168.1.15:9000');
+var socket = io.connect('http://192.168.1.15:9000', {
     path: '/socket.io-client',
     transports: ['websocket'],
     'force new connection': true
@@ -21,6 +21,29 @@ socket.on('page:save', function(doc) {
             	console.log('TAB FOUND',tab);
             	return chrome.tabs.sendMessage(tab.id,{
             		action:'Page:'+doc._id,
+            		err:null,
+            		data:doc
+            	})
+            }
+        })
+    });
+});
+
+socket.on('comment:save', function(doc) {
+    console.log('received from socket', doc);
+    chrome.tabs.query({}, function(tabs) {
+        tabs.forEach(function(tab) {
+        		console.log(tab);
+            var href = tab.url.split('/');
+            var domain = href[2].replace(/\./g, '+');
+            href.splice(0, 3);
+            var path = href.join('+');
+            console.log(domain+path);
+            console.log(doc.pageRef);
+            if (doc.pageRef === (domain+'+'+path)) {
+            	console.log('TAB FOUND',tab);
+            	return chrome.tabs.sendMessage(tab.id,{
+            		action:'Comment:CREATE',
             		err:null,
             		data:doc
             	})

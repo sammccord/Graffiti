@@ -98,6 +98,7 @@ function init() {
                         method: 'POST',
                         args: {
                             page: current_page,
+                            pageRef: this.state.name,
                             name: sprayComment.author,
                             text: sprayComment.text,
                             page: current_page,
@@ -109,6 +110,7 @@ function init() {
                         action: 'Spray:CREATE',
                         method: 'POST',
                         args: {
+                        		pageRef: this.state.name,
                             name: sprayComment.author,
                             text: sprayComment.text,
                             page: current_page,
@@ -123,6 +125,7 @@ function init() {
                     action: 'Comment:CREATE',
                     method: 'POST',
                     args: {
+                    		pageRef: this.state.name,
                         id: sprayId,
                         name: sprayComment.author,
                         text: sprayComment.text,

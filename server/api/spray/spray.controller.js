@@ -44,7 +44,8 @@ exports.create = function(req, res) {
 
         Comment.create({
             name: req.body.name,
-            text: req.body.text
+            text: req.body.text,
+            pageRef: req.body.pageRef
         }, function(err, comment) {
         		console.log(arguments);
             spray.comments.push(comment._id);

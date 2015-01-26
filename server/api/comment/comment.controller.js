@@ -31,6 +31,7 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
     Spray.findById(req.body.id, function(err, spray) {
         var comment = new Comment({
+        		pageRef: req.body.pageRef,
             name: req.body.name,
             text: req.body.text,
             createdAt: req.body.createdAt

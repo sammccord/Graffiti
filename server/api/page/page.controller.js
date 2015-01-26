@@ -64,7 +64,8 @@ exports.create = function(req, res) {
 
     var comment = new Comment({
         name: req.body.name,
-        text: req.body.text
+        text: req.body.text,
+        pageRef: req.body.pageRef
     })
 
     comment.save(function(err, comment) {
