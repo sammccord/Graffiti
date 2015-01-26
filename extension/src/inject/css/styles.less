@@ -14,6 +14,7 @@
         border-radius: 50%;
         &.graffiti-expand {
             max-width: 290px;
+            min-width: 290px;
             max-height: 999px;
             border-radius: 5%;
             .graffiti-scroller {
@@ -29,6 +30,7 @@
         .commentForm {
         	padding: .5em;
         	margin-bottom: .5em;
+        	border-bottom: 1px #4898e2 solid;
         		input,button {
         			margin: .25em 0;
         		}
@@ -54,6 +56,9 @@
                     }
                 }
             }
+            .Spray:first-child {
+						     border-top: 0px #4898e2 solid;
+						}
             &.container{
             	width: 100%;
             }
@@ -75,6 +80,7 @@
     }
     &.graffiti-focus {
         background-color: #4898e2;
+        color:white;
     }
 }
 .graffiti-count {
