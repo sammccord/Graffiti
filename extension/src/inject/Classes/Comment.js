@@ -4,7 +4,7 @@ var Comment = React.createClass({
         var name = this.props.comment.name ? this.props.comment.name : '';
         var text = this.props.comment.text ? this.props.comment.text : '';
         return (
-            React.createElement('li', null,
+            React.createElement('li', {className:'SprayComment'},
                 React.createElement('h3', null,
                     name
                 ),
