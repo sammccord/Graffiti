@@ -20,6 +20,9 @@
         "default_title": "browser action demo",
         "default_popup": "src/browser_action/browser_action.html"
     },
+    "externally_connectable": {
+        "matches": ["http://localhost:9000/"]
+    },
     "permissions": [
         "clipboardRead",
         "clipboardWrite",

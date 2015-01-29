@@ -10,11 +10,20 @@
                 console.log(selection);
 
                 var string = selection.toString();
-                var formatted = string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                // var formatted = string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                var formatted = string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                console.log(string);
+                console.log(formatted);
 
-                var regex = new RegExp("(" + formatted + ")", "g")
-                $(selection.focusNode.parentNode).html(function(_, html) {
-                    return html.replace(regex, '<span id="graffiti-spray" data-graffiti-target="' + string + '">$1</span>');
+                var regex = new RegExp("(" + formatted + ")", "gm")
+                // $(selection.focusNode.parentNode).html(function(_, html) {
+                //     return html.replace(regex, '<span id="graffiti-spray" data-graffiti-target="' + string + '">$1</span>');
+                // });
+
+                $(selection.focusNode.parentNode).contents().filter(function() {
+                    return this.nodeType === 3;
+                }).each(function() {
+                    $(this).replaceWith($(this).text().replace(regex, '<span id="graffiti-spray" data-graffiti-target="' + string + '">$1</span>'));
                 });
 
                 $('.commentForm').addClass('graffiti-visible');

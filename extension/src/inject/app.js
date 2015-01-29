@@ -41,7 +41,7 @@ function init() {
         },
         componentDidMount: function() {
             //SET UP APP HOOKS
-            modules.on('Page:'+this.state._id, function(response) {
+            modules.on('Page:' + this.state._id, function(response) {
                 console.log('FIRING PAGE GET', response);
                 if (response.err) console.log(response.err);
                 else {
@@ -63,7 +63,7 @@ function init() {
                 if (response.err) console.log(response.err);
                 else {
                     modules.send({
-                        action: 'Page:'+this.state._id,
+                        action: 'Page:' + this.state._id,
                         method: 'GET',
                         args: {
                             id: this.state._id
@@ -76,7 +76,7 @@ function init() {
                 if (response.err) console.log(response.err);
                 else {
                     modules.send({
-                        action: 'Page:'+this.state._id,
+                        action: 'Page:' + this.state._id,
                         method: 'GET',
                         args: {
                             id: this.state._id
@@ -110,7 +110,7 @@ function init() {
                         action: 'Spray:CREATE',
                         method: 'POST',
                         args: {
-                        		pageRef: this.state.name,
+                            pageRef: this.state.name,
                             name: sprayComment.author,
                             text: sprayComment.text,
                             page: current_page,
@@ -125,7 +125,7 @@ function init() {
                     action: 'Comment:CREATE',
                     method: 'POST',
                     args: {
-                    		pageRef: this.state.name,
+                        pageRef: this.state.name,
                         id: sprayId,
                         name: sprayComment.author,
                         text: sprayComment.text,
@@ -147,13 +147,20 @@ function init() {
                 if (this.presentSprays.lastIndexOf(spray._id) === -1) {
                     this.presentSprays.push(spray._id);
                     if (spray.targetText) {
-                        var formatted = spray.targetText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-                        var regex = new RegExp("(" + formatted + ")", "g")
-                        $.each($('p.graffiti-selectable:not(#graffiti-app *)'), function(index, el) {
-                            $(el).html(function(_, html) {
-                                return html.replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>');
-                            });
-                        })
+                        // var formatted = spray.targetText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                        var formatted = spray.targetText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                        var regex = new RegExp("(" + formatted + ")", "gm")
+                        // $.each($('p.graffiti-selectable:not(#graffiti-app *)'), function(index, el) {
+                        //     $(el).html(function(_, html) {
+                        //         return html.replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>');
+                        //     });
+                        // })
+
+                        $('p.graffiti-selectable:not(#graffiti-app *)').contents().filter(function() {
+                            return this.nodeType === 3;
+                        }).each(function() {
+                            $(this).replaceWith($(this).text().replace(regex, '<span class="graffiti-spray" data-graffiti-id="' + spray._id + '">$1</span><span graffiti-count-id="' + spray._id + '" class="graffiti-count">' + spray.comments.length + '</span>'));
+                        });
 
                         $.each($('.graffiti-count'), function(index, el) {
                             var offset = ($(el).parent().width() + $(el).parent().offset().left);
@@ -201,9 +208,8 @@ function init() {
                         className: 'graffiti-scroller',
                         onMouseEnter: this.addSprayHighlight,
                         onMouseLeave: this.removeSprayHighlight,
-                        onClick: function(){
-                        	console.log('hey');
-                        	$('.graffiti-container').toggleClass('graffiti-expand');
+                        onClick: function() {
+                            $('.graffiti-container').toggleClass('graffiti-expand');
                         }
                     }, '0'),
                     React.createElement(CommentForm, {

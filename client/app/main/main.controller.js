@@ -1,12 +1,18 @@
 'use strict';
 
 angular.module('graffitiApp')
-  .controller('MainCtrl', function ($scope, $http, socket) {
+  .controller('MainCtrl', function ($scope, $http, socket, extension) {
     $scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
       socket.syncUpdates('thing', $scope.awesomeThings);
+    });
+
+    extension.sendMessage({
+    	thing:'otherthing'
+    },function(response){
+    	console.log(response);
     });
 
     $scope.addThing = function() {
