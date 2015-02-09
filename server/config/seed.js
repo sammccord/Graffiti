@@ -13,8 +13,6 @@ var Spray = require('../api/spray/spray.model');
 var Organization = require('../api/organization/organization.model');
 var async = require('async');
 
-var org_ids = [];
-
 async.series([
     function(callback){
       Organization.find({}).remove(function() {
@@ -37,28 +35,25 @@ async.series([
       Page.find({}).remove(function() {
         var page = new Page();
         page.name = "techcrunch+com+2015+01+20+spacex-raises-1-billion-in-new-funding-from-google-and-fidelity+";
-        Organization.find(function(err,organizations){
-          console.log('FINDING ORGS',organizations);
-          organizations.forEach(function(organization){
-            org_ids.push(organization._id);
+        page.save(function(err,page){
+          Organization.find(function(err,organizations){
+            organizations[0].pages.push(page._id);
+            organizations[0].save(function(err,org){
+              callback();
+            })
           });
-          console.log(org_ids);
-          page.organizations = org_ids;
-          page.save(function(err,page){
-            callback();
-          })
         });
       });
     },
     function(callback){
       Spray.find({}).remove(function() {
-        Organization.find(function(err, orgs) {
+        Page.find(function(err, pages) {
           Spray.create({
             name: 'TESTSPRAY',
             targetText: 'Google and Fidelity get an ownership stake'
           }, function(err, spray) {
-            orgs[0].sprays.push(spray._id);
-            orgs[0].save(function(err,org){
+            pages[0].sprays.push(spray._id);
+            pages[0].save(function(err,org){
               callback();
             });
           })

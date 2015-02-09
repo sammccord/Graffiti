@@ -15,10 +15,6 @@ var PageSchema = new Schema({
     sprays: [{
         type: Schema.Types.ObjectId,
         ref: 'Spray'
-    }],
-    organizations: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Organization'
     }]
 });
 

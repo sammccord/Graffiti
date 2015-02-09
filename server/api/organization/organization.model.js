@@ -9,9 +9,9 @@ var OrganizationSchema = new Schema({
   name: String,
   info: String,
   active: Boolean,
-  sprays: [{
+  pages: [{
     type: Schema.Types.ObjectId,
-    ref: 'Spray',
+    ref: 'Page',
     default: []
   }]
 });

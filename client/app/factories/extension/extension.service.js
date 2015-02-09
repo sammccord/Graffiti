@@ -25,11 +25,12 @@ angular.module('graffitiApp')
           })
         }
 
-        function addIdentity (organization,name,cb) {
+        function addIdentity (organization,name,org_id,cb) {
           sendMessage({
             action:'addIdentity',
             organization: organization,
-            name: name
+            name: name,
+            organization_id:org_id
           },function(user){
             cb(user);
           })
@@ -47,7 +48,7 @@ angular.module('graffitiApp')
 
         return {
           getIdentities: getIdentities,
-          addIdentitiy: addIdentity,
+          addIdentity: addIdentity,
           setDefaultIdentity: setDefaultIdentity
         };
     });

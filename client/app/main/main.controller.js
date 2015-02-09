@@ -7,6 +7,15 @@ angular.module('graffitiApp')
 
       $scope.user = {};
 
+      $scope.organizations = {
+        availableOrganizations: []
+      };
+
+      $http.get('/api/organizations').
+      success(function(data, status, headers, config) {
+        $scope.organizations.availableOrganizations = data;
+      });
+
       extension.getIdentities(function(user){
         if(user){
           $scope.extensionPresent = true;
@@ -20,8 +29,12 @@ angular.module('graffitiApp')
       });
 
 
-    	$scope.addIdentity = function (organization,name) {
-        extension.addIdentitiy($scope.organization,$scope.name,function(user) {
+    	$scope.addIdentity = function () {
+        var _id;
+        $scope.organizations.availableOrganizations.forEach(function(org){
+          if(org.name === $scope.organization) _id = org._id;
+        })
+        extension.addIdentity($scope.organization,$scope.name,_id,function(user) {
           $scope.user = user;
           $cookies.user = JSON.stringify(user);
         });

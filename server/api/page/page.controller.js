@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Page = require('./page.model');
 var Spray = require('../spray/spray.model');
 var Comment = require('../comment/comment.model.js');
+var Organization = require('../organization/organization.model.js');
 
 // Get list of pages
 exports.index = function(req, res) {
@@ -17,46 +18,31 @@ exports.index = function(req, res) {
 };
 
 // Get a single page
-exports.show = function(req, res,next) {
+exports.show = function(req, res) {
     console.log('getting page');
-    if (req.query.id) {
-        Page.findById(req.query.id)
-            .deepPopulate('sprays.comments')
-            .exec(function(err, page) {
+    Organization.findById(req.params.org_id)
+      .populate('pages')
+      .exec(function(err,organization){
+        if(!organization) return res.send(404);
+        console.log(organization);
+        organization.pages.forEach(function(page){
+          if(page.name === req.params.page_name){
+            Page.findById(page._id)
+              .deepPopulate('sprays.comments')
+              .exec(function(err,page){
                 console.log(page);
                 if (err) {
-                    return handleError(res, err);
+                  return handleError(res, err);
                 }
                 if (!page) {
-                    return res.send(404);
+                  return res.send(404);
                 }
-                console.log(page);
-                req.page = page;
-                return next();
-            })
-    } else {
-        Page.findOne({
-                name: req.params.name
-            })
-            .deepPopulate('sprays.comments')
-            .exec(function(err, page) {
-                console.log(page);
-                if (err) {
-                    return handleError(res, err);
-                }
-                if (!page) {
-                    return res.send(404);
-                }
-                console.log(page);
-                req.page = page;
-                return next()
-            })
-    }
+                return res.json(page)
+              })
+          }
+        });
+      });
 };
-
-exports.byGroup = function(req,res){
-  res.json(req.page);
-}
 
 // Creates a new page in the DB.
 exports.create = function(req, res) {

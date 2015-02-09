@@ -5,13 +5,11 @@ var controller = require('./page.controller');
 
 var router = express.Router();
 
-router.get('/', controller.index);
-router.get('/:name', controller.show);
-router.get('/:name/org/:organization',controller.byGroup);
-
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.patch('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+router.get('/pages', controller.index);
+router.get('/org/:org_id/page/:page_name',controller.show);
+router.post('/pages', controller.create);
+router.put('/pages/:id', controller.update);
+router.patch('/pages/:id', controller.update);
+router.delete('/pages/:id', controller.destroy);
 
 module.exports = router;
