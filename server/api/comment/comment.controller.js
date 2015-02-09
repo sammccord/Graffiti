@@ -29,15 +29,14 @@ exports.show = function(req, res) {
 
 // Creates a new comment in the DB.
 exports.create = function(req, res) {
-    Spray.findById(req.body.id, function(err, spray) {
+    console.log(req.body);
+    Spray.findById(req.body.spray_id, function(err, spray) {
         var comment = new Comment({
-        		pageRef: req.body.pageRef,
-            name: req.body.name,
-            text: req.body.text,
-            createdAt: req.body.createdAt
-        })
+            user: req.body.user,
+            text: req.body.text
+        });
         comment.save(function(err, comment) {
-            spray.comments.push(comment._id)
+            spray.comments.push(comment._id);
             spray.save(function(err, spray) {
                 res.json(comment);
             })

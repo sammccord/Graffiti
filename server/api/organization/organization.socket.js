@@ -6,7 +6,7 @@
 
 var Organization = require('./organization.model');
 
-exports.register = function(socket) {
+function register (socket) {
   Organization.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
@@ -22,3 +22,5 @@ function onSave(socket, doc, cb) {
 function onRemove(socket, doc, cb) {
   socket.emit('organization:remove', doc);
 }
+
+exports.register = register;

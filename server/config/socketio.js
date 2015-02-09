@@ -13,6 +13,7 @@ function onDisconnect(socket) {
 // When the user connects.. perform this
 function onConnect(socket) {
   // When the client emits 'info', this listens and executes
+  console.log('!!!SOCKET CONNECT');
   socket.on('info', function (data) {
     console.info('[%s] %s', socket.address, JSON.stringify(data, null, 2));
   });
@@ -40,6 +41,7 @@ module.exports = function (socketio) {
   //   secret: config.secrets.session,
   //   handshake: true
   // }));
+  require('./namespaces').initialize(socketio);
 
   socketio.on('connection', function (socket) {
     socket.address = socket.handshake.address !== null ?
@@ -47,7 +49,7 @@ module.exports = function (socketio) {
             process.env.DOMAIN;
 
     socket.connectedAt = new Date();
-    console.log('connected at', socket.connectedAt)
+    console.log('connected at', socket.connectedAt);
 
     // Call onDisconnect.
     socket.on('disconnect', function () {

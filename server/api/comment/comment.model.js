@@ -10,7 +10,7 @@ var CommentSchema = new Schema({
     name: String,
     info: String,
     active: Boolean,
-    user: Object,
+    user: String,
     replies: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'
