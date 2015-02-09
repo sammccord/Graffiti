@@ -16,10 +16,10 @@ var PageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Spray'
     }],
-    monitor: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }
+    organizations: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Organization'
+    }]
 });
 
 PageSchema.plugin(deepPopulate, {});

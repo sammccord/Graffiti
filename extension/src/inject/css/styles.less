@@ -1,67 +1,73 @@
-#graffiti-app {
-    padding: 0;
-    position: fixed;
-    top: 10vh;
-    right: 20px;
-    z-index: 9999999999999;
-    .graffiti-container {
-        overflow: hidden;
-        -webkit-transition: max-width .25s linear, max-height .25s linear, border-radius .25s linear;
-        max-width: 80px;
-        max-height: 80px;
-        background: rgba(255, 255, 255, 1);
-        border: 4px double #5cb1fc;
-        border-radius: 50%;
-        &.graffiti-expand {
-            max-width: 290px;
-            min-width: 290px;
-            max-height: 999px;
-            border-radius: 5%;
+html {
+    -webkit-transition: margin-right .35s ease-in-out, border-right .35s linear;
+    margin-right: 0;
+    border-right: 0px solid black;
+    height: 100%;
+    #graffiti-app {
+        width: 260px;
+        position: fixed;
+        right: 0;
+        -webkit-transition: margin-right .35s ease-in-out, box-shadow .35s linear;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        margin-right: -260px;
+        z-index: 9999999999999;
+        padding: 0;
+        padding-left:6px;
+        padding-right: 6px;
+        .graffiti-container {
+            max-width: 260px;
+            overflow: hidden;
             .graffiti-scroller {
-                display: none;
+                position: fixed;
+                right: 0;
+                z-index: 9999999999999;
+                font-size: 52px;
+                cursor: pointer;
+                color: #4195e8 !important;
             }
-        }
-        .graffiti-scroller {
-            font-size: 52px;
-            cursor: pointer;
-            color: #4195e8 !important;
-            padding: 28px 20px 40px 20px;
-        }
-        .commentForm {
-        	padding: .5em;
-        	margin-bottom: .5em;
-        	border-bottom: 1px #4898e2 solid;
-        		input,button {
-        			margin: .25em 0;
-        		}
-            &.graffiti-invisible {
-                display: none;
-            }
-            &.graffiti-invisible.graffiti-visible {
-                display: block;
-            }
-        }
-        .SprayList {
-            max-height: 320px;
-            overflow: scroll;
-            .Spray {
-                border-top: 1px #4898e2 solid;
-                ul.SprayComments {
-                    li.SprayComment {
-                    	padding: 1em 0;
-                    	margin: .5em 0;
-                    	b.commentAuthor {
-                    		padding-bottom: .75em;
-                    	}
-                    }
+            .commentForm {
+                padding: 0em;
+                margin-bottom: .5em;
+                border-bottom: 1px #4898e2 solid;
+                input, button {
+                    margin: .25em 0;
+                }
+                &.graffiti-invisible {
+                    display: none;
+                }
+                &.graffiti-invisible.graffiti-visible {
+                    display: block;
                 }
             }
-            .Spray:first-child {
-						     border-top: 0px #4898e2 solid;
-						}
-            &.container{
-            	width: 100%;
+            .SprayList {
+                .Spray {
+                    border-top: 1px #4898e2 solid;
+                    ul.SprayComments {
+                        li.SprayComment {
+                            padding: 0em 0;
+                            margin: .5em 0;
+                            b.commentAuthor {
+                                padding-bottom: .75em;
+                            }
+                        }
+                    }
+                }
+                .Spray:first-child {
+                    border-top: 0px #4898e2 solid;
+                }
+                &.container {
+                    width: 100%;
+                }
             }
+        }
+    }
+    &.graffiti-expand {
+        margin-right: 260px;
+        #graffiti-app {
+            box-shadow: inset 4px 1px 9px -6px rgba(0,0,0,.5);
+            margin-right: 0px;
         }
     }
 }
@@ -80,7 +86,7 @@
     }
     &.graffiti-focus {
         background-color: #4898e2;
-        color:white;
+        color: white;
     }
 }
 .graffiti-count {

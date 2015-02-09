@@ -1,33 +1,36 @@
 'use strict';
 
 angular.module('graffitiApp')
-  .controller('MainCtrl', function ($scope, $http, socket, extension) {
-    $scope.awesomeThings = [];
+    .controller('MainCtrl', function($scope, $http, socket, extension,$cookies) {
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('thing', $scope.awesomeThings);
-    });
+      $scope.extensionPresent = false;
 
-    extension.sendMessage({
-    	thing:'otherthing'
-    },function(response){
-    	console.log(response);
-    });
+      $scope.user = {};
 
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
+      extension.getIdentities(function(user){
+        if(user){
+          $scope.extensionPresent = true;
+          $cookies.user = JSON.stringify(user);
+          $scope.user = user;
+        }
+        else{
+          $scope.extensionPresent = false;
+          $scope.user = {};
+        }
+      });
+
+
+    	$scope.addIdentity = function (organization,name) {
+        extension.addIdentitiy($scope.organization,$scope.name,function(user) {
+          $scope.user = user;
+          $cookies.user = JSON.stringify(user);
+        });
+    	};
+
+      $scope.setDefaultIdentity = function (organization,name) {
+        extension.setDefaultIdentity(organization,name,function(user){
+          $scope.user = user;
+          $cookies.user = JSON.stringify(user);
+        })
       }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
-
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
     });
-  });

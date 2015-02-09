@@ -2,9 +2,9 @@ var SprayList = React.createClass({
     displayName: 'SprayList',
     componentWillReceiveProps:function(nextProps){
     	console.log(nextProps);
+    	console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     },
     render: function() {
-        console.log('SPRAYLIST SUP BITCH')
         var Sprays = this.props.sprays.map(function(sprayData) {
             return React.createElement(Spray, {
                 key: sprayData._id,

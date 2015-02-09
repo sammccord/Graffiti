@@ -24,7 +24,6 @@ modules = {
         }
     },
     trigger: function(eventName, data) {
-        console.log('triggering');
         if (hooks[eventName]) {
             hooks[eventName].forEach(function(fn) {
                 fn(data);
@@ -33,4 +32,4 @@ modules = {
             console.log('no hook')
         }
     }
-}
+};

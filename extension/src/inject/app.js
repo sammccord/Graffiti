@@ -22,11 +22,6 @@ modules.on('init', init)
 
 function init() {
 
-    chrome.storage.sync.get("token", function(data) {
-        token = data.token;
-        console.log(token);
-    });
-
     //Prevent multiple inits per domain.
     if (document.domain.replace(/\./g, '+') + window.location.pathname.replace(/\//g, '+') === current_page) return false;
     current_page = document.domain.replace(/\./g, '+') + window.location.pathname.replace(/\//g, '+');
@@ -61,18 +56,10 @@ function init() {
 
             modules.on('Spray:CREATE', function(response) {
                 if (response.err) console.log(response.err);
-                else {
-                    modules.send({
-                        action: 'Page:' + this.state._id,
-                        method: 'GET',
-                        args: {
-                            id: this.state._id
-                        }
-                    })
-                }
             }.bind(this))
 
             modules.on('Comment:CREATE', function(response) {
+            		console.log('comment',response);
                 if (response.err) console.log(response.err);
                 else {
                     modules.send({
@@ -209,7 +196,7 @@ function init() {
                         onMouseEnter: this.addSprayHighlight,
                         onMouseLeave: this.removeSprayHighlight,
                         onClick: function() {
-                            $('.graffiti-container').toggleClass('graffiti-expand');
+                            $('html').toggleClass('graffiti-expand');
                         }
                     }, '0'),
                     React.createElement(CommentForm, {

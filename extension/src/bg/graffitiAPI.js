@@ -7,9 +7,7 @@ Graffiti.prototype.Page = function() {
     var self = this;
     return {
         GET: function(args, callback) {
-            console.log(self);
             //args.domain
-            console.log(args.page);
             var params = ''
             if (args.id) {
                 params = '?id=' + args.id
@@ -22,7 +20,7 @@ Graffiti.prototype.Page = function() {
                     callback(null, data)
                 },
                 error: function(xhr, status, err) {
-                    console.error(status, err.toString());
+                    // console.error(status, err.toString());
                     callback(err.toString())
                 }
             });
@@ -34,7 +32,6 @@ Graffiti.prototype.Page = function() {
                 url: self.api + '/api/pages/',
                 data: args,
                 success: function(data) {
-                    console.log(data);
                     callback(null, data)
                 },
                 error: function(xhr, status, err) {
@@ -62,7 +59,6 @@ Graffiti.prototype.Spray = function() {
                 url: self.api + '/api/sprays/' + args.id,
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
                     callback(null, data)
                 },
                 error: function(xhr, status, err) {
@@ -77,7 +73,6 @@ Graffiti.prototype.Spray = function() {
                 url: self.api + '/api/sprays/',
                 data: args,
                 success: function(data) {
-                    console.log(data);
                     callback(null, data)
                 },
                 error: function(xhr, status, err) {

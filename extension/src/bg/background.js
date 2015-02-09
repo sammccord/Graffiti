@@ -1,24 +1,25 @@
 //PUT YOUR IP ADDRESS HERE with http:// in front of it. It's important.
-var Graffiti = new Graffiti('http://192.168.2.4:9000');
-var socket = io.connect('http://192.168.2.4:9000', {
+var Graffiti = new Graffiti('http://192.168.1.15:9000');
+var socket = io.connect('http://192.168.1.15:9000', {
     path: '/socket.io-client',
     transports: ['websocket'],
     'force new connection': true
 });
 
+chrome.storage.local.clear()
+
+var user = {};
+getIdentity();
+
 socket.on('page:save', function(doc) {
     console.log('received from socket', doc);
     chrome.tabs.query({}, function(tabs) {
         tabs.forEach(function(tab) {
-            console.log(tab);
             var href = tab.url.split('/');
             var domain = href[2].replace(/\./g, '+');
             href.splice(0, 3);
             var path = href.join('+');
-            console.log(domain + path);
-            console.log(doc.name);
             if (doc.name === (domain + '+' + path)) {
-                console.log('TAB FOUND', tab);
                 return chrome.tabs.sendMessage(tab.id, {
                     action: 'Page:' + doc._id,
                     err: null,
@@ -33,15 +34,11 @@ socket.on('comment:save', function(doc) {
     console.log('received from socket', doc);
     chrome.tabs.query({}, function(tabs) {
         tabs.forEach(function(tab) {
-            console.log(tab);
             var href = tab.url.split('/');
             var domain = href[2].replace(/\./g, '+');
             href.splice(0, 3);
             var path = href.join('+');
-            console.log(domain + path);
-            console.log(doc.pageRef);
             if (doc.pageRef === (domain + '+' + path)) {
-                console.log('TAB FOUND', tab);
                 return chrome.tabs.sendMessage(tab.id, {
                     action: 'Comment:CREATE',
                     err: null,
@@ -51,12 +48,6 @@ socket.on('comment:save', function(doc) {
         })
     });
 });
-
-chrome.runtime.onMessageExternal.addListener(
-    function(request, sender, sendResponse) {
-    		console.log(arguments);
-    		sendResponse(200);
-    });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status && changeInfo.status == 'complete') {
@@ -92,3 +83,33 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
             storageChange.newValue);
     }
 });
+
+function getIdentity() {
+    chrome.storage.local.get('identities', function(identities) {
+    	console.log(identities);
+    	user = identities;
+    	if(typeof user === 'object'){
+    		return user;
+    	}
+    	else{
+    		return JSON.parse(user);
+    	}
+    });
+}
+
+function addIdentity(origin,name,cb) {
+		user[origin] = name;
+		console.log(user);
+    chrome.storage.local.set({'identities':JSON.stringify(user)});
+}
+
+chrome.runtime.onMessageExternal.addListener(
+    function(request, sender, sendResponse) {
+        if(request.action === 'Identity' && request.method === 'GET'){
+        	sendResponse(user);
+        }
+        if(request.action === 'Identity' && request.method === 'ADD'){
+        	addIdentity(request.data.origin,request.data.name);
+        	sendResponse(user);
+        }
+    });

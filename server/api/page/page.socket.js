@@ -9,8 +9,6 @@ var Page = require('./page.model');
 exports.register = function(socket) {
   Page.schema.post('save', function (doc) {
   	doc.deepPopulate('sprays.comments',function(err,page){
-  		console.log('POPULATING THE PAGE SOCKET');
-  		console.log(arguments);
   		onSave(socket, doc);
   	});
   });

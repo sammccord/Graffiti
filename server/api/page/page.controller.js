@@ -17,7 +17,7 @@ exports.index = function(req, res) {
 };
 
 // Get a single page
-exports.show = function(req, res) {
+exports.show = function(req, res,next) {
     console.log('getting page');
     if (req.query.id) {
         Page.findById(req.query.id)
@@ -31,7 +31,8 @@ exports.show = function(req, res) {
                     return res.send(404);
                 }
                 console.log(page);
-                return res.json(page);
+                req.page = page;
+                return next();
             })
     } else {
         Page.findOne({
@@ -47,10 +48,15 @@ exports.show = function(req, res) {
                     return res.send(404);
                 }
                 console.log(page);
-                return res.json(page);
+                req.page = page;
+                return next()
             })
     }
 };
+
+exports.byGroup = function(req,res){
+  res.json(req.page);
+}
 
 // Creates a new page in the DB.
 exports.create = function(req, res) {
@@ -60,7 +66,7 @@ exports.create = function(req, res) {
 
     var spray = new Spray({
         targetText: req.body.targetText
-    })
+    });
 
     var comment = new Comment({
         name: req.body.name,
